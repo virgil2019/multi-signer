@@ -39,7 +39,7 @@ export class skSigner implements Signer {
         };
     }
 
-    async getPublicKey(compressed: boolean): Promise<Uint8Array> {
+    getPublicKey(compressed: boolean): Uint8Array {
         return ecdsa.publicKeyCreate(this.sk, compressed);
     }
 }

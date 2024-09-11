@@ -1,3 +1,4 @@
+import { KMSSigner } from "./KMSSigner";
 import { Signer } from "./signer";
 import { skSigner } from "./skSigner";
 import { SignerType } from "./types";
@@ -8,6 +9,12 @@ export {SignerType, Signer};
  * SignerType.SK
  * params: {
  *  sk: string
+ * }
+ * 
+ * SignerType.KMS
+ * {
+ *  keyId: string,
+ *  pk: string
  * }
  * 
  * examples
@@ -22,6 +29,18 @@ export function createSigner(signerType: SignerType, params: any): Signer {
             }
 
             return new skSigner(params.sk);
+        };
+        break;
+        case SignerType.KMS: {
+            if (!params.keyId) {
+                throw new Error(`param 'keyId' is needed`);
+            }
+
+            if (!params.pk) {
+                throw new Error(`param 'pk' is needed`);
+            }
+
+            return new KMSSigner(params.keyId, params.pk);
         }
         default: throw new Error('Not supported signer type');
     }

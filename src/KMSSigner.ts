@@ -68,7 +68,7 @@ export class KMSSigner implements Signer {
      * @notice Returns the public key
      * @param compressed If the public key is compressed
      */
-    async getPublicKey(compressed: boolean): Promise<Uint8Array> {
+    getPublicKey(compressed: boolean): Uint8Array {
         if (!compressed) {
             return Uint8Array.from(Buffer.from(this.pk.substring(2), 'hex'));
         }
