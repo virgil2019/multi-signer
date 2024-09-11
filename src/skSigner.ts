@@ -40,8 +40,14 @@ export class skSigner implements Signer {
         };
     }
 
-    getPublicKey(compressed: boolean): Uint8Array {
-        return ecdsa.publicKeyCreate(this.sk, compressed).subarray(1);
+    getPublicKey(compressed: boolean, hex: boolean = false): Uint8Array | string {
+        const pk = ecdsa.publicKeyCreate(this.sk, compressed).subarray(1);
+        if (hex) {
+            return `0xBuffer.from(pk).toString('hex')`;
+        }
+        else {
+            return pk;
+        }
     }
 
     getConfig(): any {

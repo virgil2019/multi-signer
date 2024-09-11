@@ -69,12 +69,20 @@ export class KMSSigner implements Signer {
      * @notice Returns the public key
      * @param compressed If the public key is compressed
      */
-    getPublicKey(compressed: boolean): Uint8Array {
+    getPublicKey(compressed: boolean, hex: boolean = false): Uint8Array | string {
         if (!compressed) {
-            return Uint8Array.from(Buffer.from(this.pk.substring(2), 'hex'));
+            if (hex) {
+                return this.pk;
+            }
+            else {
+                return Uint8Array.from(Buffer.from(this.pk.substring(2), 'hex'));
+            }
         }
         else {
-            return Uint8Array.from(Buffer.from(this.pk.substring(2, 64), 'hex'));
+            if (hex) {
+                return `0x${this.pk.substring(2, 66)}`;
+            }
+            return Uint8Array.from(Buffer.from(this.pk.substring(2, 66), 'hex'));
         }
     }
 

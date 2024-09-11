@@ -12,7 +12,7 @@ export interface Signer {
      * @notice Returns the public key
      * @param compressed If the public key is compressed
      */
-    getPublicKey(compressed: boolean): Uint8Array;
+    getPublicKey(compressed: boolean, hex: boolean): Uint8Array | string;
 
     getConfig(): any;
 }
