@@ -1,6 +1,7 @@
 import { Signer } from './signer';
 import { KMS } from '@aws-sdk/client-kms';
 import { Sequence, fromBER } from 'asn1js';
+import { SignerType } from './types';
 
 export class KMSSigner implements Signer {
     kms: KMS;
@@ -74,6 +75,16 @@ export class KMSSigner implements Signer {
         }
         else {
             return Uint8Array.from(Buffer.from(this.pk.substring(2, 64), 'hex'));
+        }
+    }
+
+    getConfig(): any {
+        return {
+            signerType: SignerType.SK,
+            params: {
+                keyId: this.keyId,
+                pk: this.pk
+            }
         }
     }
 }

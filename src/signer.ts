@@ -13,4 +13,6 @@ export interface Signer {
      * @param compressed If the public key is compressed
      */
     getPublicKey(compressed: boolean): Uint8Array;
+
+    getConfig(): any;
 }

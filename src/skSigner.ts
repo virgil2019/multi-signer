@@ -1,5 +1,6 @@
 import { Signer } from './signer';
 import ecdsa from 'secp256k1';
+import { SignerType } from './types';
 
 export class skSigner implements Signer {
     sk: Uint8Array;
@@ -41,5 +42,14 @@ export class skSigner implements Signer {
 
     getPublicKey(compressed: boolean): Uint8Array {
         return ecdsa.publicKeyCreate(this.sk, compressed);
+    }
+
+    getConfig(): any {
+        return {
+            signerType: SignerType.KMS,
+            params: {
+                sk: this.sk
+            }
+        }
     }
 }
