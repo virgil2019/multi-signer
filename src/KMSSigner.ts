@@ -1,16 +1,16 @@
 import { Signer } from './signer';
 import { KMS } from '@aws-sdk/client-kms';
 import { Sequence, fromBER } from 'asn1js';
-import config from 'config';
-import fs from 'fs';
 
 export class KMSSigner implements Signer {
     kms: KMS;
+    keyId: string;
+    pk: string;
 
-    constructor() {
-        this.kms = new KMS({
-            region: config.get('signer.KMS.region')
-        });
+    constructor(keyId: string, pk: string) {
+        this.keyId = keyId;
+        this.pk = pk;
+        this.kms = new KMS();
     }
 
     private handleDecodedData(data: Buffer): Buffer {
@@ -40,10 +40,9 @@ export class KMSSigner implements Signer {
         signature: Uint8Array
     }> {
         return new Promise((res, rej) => {
-            const keyId = config.get('signer.KMS.keyId') as string;
             this.kms.sign(
                 {
-                    KeyId: keyId,
+                    KeyId: this.keyId,
                     MessageType: 'DIGEST',
                     Message: Uint8Array.from(hash),
                     SigningAlgorithm: 'ECDSA_SHA_256'
@@ -63,5 +62,18 @@ export class KMSSigner implements Signer {
                 }
             );
         });
+    }
+
+    /**
+     * @notice Returns the public key
+     * @param compressed If the public key is compressed
+     */
+    async getPublicKey(compressed: boolean): Promise<Uint8Array> {
+        if (!compressed) {
+            return Uint8Array.from(Buffer.from(this.pk.substring(2), 'hex'));
+        }
+        else {
+            return Uint8Array.from(Buffer.from(this.pk.substring(2, 64), 'hex'));
+        }
     }
 }
