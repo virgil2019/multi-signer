@@ -48,7 +48,7 @@ export class skSigner implements Signer {
         return {
             signerType: SignerType.KMS,
             params: {
-                sk: this.sk
+                sk: `0x${Buffer.from(this.sk).toString('hex')}`
             }
         }
     }
