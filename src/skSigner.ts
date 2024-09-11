@@ -41,12 +41,7 @@ export class skSigner implements Signer {
     }
 
     getPublicKey(compressed: boolean): Uint8Array {
-        if (!compressed) {
-            return ecdsa.publicKeyCreate(this.sk.subarray(1), compressed);
-        }
-        else {
-            return ecdsa.publicKeyCreate(this.sk.subarray(1, 32), compressed);
-        }
+        return ecdsa.publicKeyCreate(this.sk, compressed).subarray(1);
     }
 
     getConfig(): any {
