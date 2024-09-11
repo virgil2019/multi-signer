@@ -41,12 +41,17 @@ export class skSigner implements Signer {
     }
 
     getPublicKey(compressed: boolean): Uint8Array {
-        return ecdsa.publicKeyCreate(this.sk, compressed);
+        if (!compressed) {
+            return ecdsa.publicKeyCreate(this.sk.subarray(1), compressed);
+        }
+        else {
+            return ecdsa.publicKeyCreate(this.sk.subarray(1, 32), compressed);
+        }
     }
 
     getConfig(): any {
         return {
-            signerType: SignerType.KMS,
+            signerType: SignerType.SK,
             params: {
                 sk: `0x${Buffer.from(this.sk).toString('hex')}`
             }

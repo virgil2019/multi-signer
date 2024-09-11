@@ -80,7 +80,7 @@ export class KMSSigner implements Signer {
 
     getConfig(): any {
         return {
-            signerType: SignerType.SK,
+            signerType: SignerType.KMS,
             params: {
                 keyId: this.keyId,
                 pk: this.pk
