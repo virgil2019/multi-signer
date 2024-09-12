@@ -43,7 +43,7 @@ export class skSigner implements Signer {
     getPublicKey(compressed: boolean, hex: boolean = false): Uint8Array | string {
         const pk = ecdsa.publicKeyCreate(this.sk, compressed).subarray(1);
         if (hex) {
-            return `0xBuffer.from(pk).toString('hex')`;
+            return `0x${Buffer.from(pk).toString('hex')}`;
         }
         else {
             return pk;
