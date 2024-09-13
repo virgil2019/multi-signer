@@ -109,7 +109,7 @@ export class KMSSigner implements Signer {
 
                         res({
                             rc,
-                            signature
+                            signature: Buffer.concat([r, s])
                         });
                     }
                 }
