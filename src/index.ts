@@ -2,7 +2,7 @@ import { KMSSigner } from "./KMSSigner";
 import { Signer } from "./signer";
 import { skSigner } from "./skSigner";
 import { SignerType } from "./types";
-export {SignerType, Signer};
+export {SignerType, Signer, KMSSigner, skSigner};
 
 /**
  * @dev
